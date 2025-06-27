@@ -1,0 +1,56 @@
+{
+	"manifest_version": 2,
+	"type": "parserhook",
+	
+	"name": "UserWords",
+	"author": "[https://theelm.net TheElm]",
+	"descriptionmsg": "userwords-ext-description",
+	
+	"url": "https://github.com/GStefanowich/MW-UserWords",
+	"version": "1.0.0",
+	"license-name": "MIT",
+	
+	"requires": {
+		"MediaWiki": ">= 1.43.0",
+		"platform": {
+			"php": ">= 8.1"
+		}
+	},
+	
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
+	"Hooks": {
+		"GetMagicVariableIDs": "setVariableIds",
+		"ParserGetVariableValueSwitch": "getVariableValues",
+		"ParserFirstCallInit": "initFunctions"
+	},
+	"HookHandlers": {
+		"setVariableIds": {
+			"class": "MediaWiki\\Extension\\UserWords\\Hooks\\Variables"
+		},
+		"getVariableValues": {
+			"class": "MediaWiki\\Extension\\UserWords\\Hooks\\Values",
+			"services": [
+				"ExtUserWords"
+			]
+		},
+		"initFunctions": {
+			"class": "MediaWiki\\Extension\\UserWords\\Hooks\\Functions",
+			"services": [
+				"ExtUserWords"
+			]
+		}
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\UserWords\\": "includes/"
+	},
+	"MessagesDirs": {
+		"UserWords": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"UserWordsMagic": "UserWords.i18n.magic.php"
+	}
+}
