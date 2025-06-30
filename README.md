@@ -8,6 +8,7 @@ Magic words require being in the `User:` namespace. If used in any other namespa
 
 * `{{USERLANGUAGECODE}}`
   * Shows the users language code set in their preferences, or the wikis default language
+  * Disabled by default
 * `{{USERFIRSTREVISIONSTAMP}}`
   * Timestamp of the users first edit
 * `{{USERGROUPS:all}}`
@@ -15,3 +16,14 @@ Magic words require being in the `User:` namespace. If used in any other namespa
   * `all` parameter takes a truthy input, when true will show implicit and explicit groups. Otherwise only explicit
 * `{{USERREGISTRATIONSTAMP}}`
   * Timestamp of when the user registered
+
+## Configuration
+
+Each magic word can be enabled or disabled in the `LocalSettings.php` config
+
+```php
+$wgUserWordsUserLanguageCode = true;
+$wgUserWordsUserFirstRevisionStamp = true;
+$wgUserWordsUserGroups = true;
+$wgUserWordsUserRegistrationStamp = true;
+```
