@@ -17,6 +17,26 @@
 		}
 	},
 	
+	"config_prefix": "wgUserWords",
+	"config": {
+		"UserGroups": {
+			"description": "Gets groups that the user is a member of, implicitly or otherwise granted",
+			"value": true
+		},
+		"UserRegistrationStamp": {
+			"description": "Gets the timestamp of when the user registered on the wiki",
+			"value": true
+		},
+		"UserFirstRevisionStamp": {
+			"description": "Gets the timestamp of the first non-hidden revision that the user has made on the wiki",
+			"value": true
+		},
+		"UserLanguageCode": {
+			"description": "Gets the Users Language Code that they have configured in their preferences",
+			"value": false
+		}
+	},
+	
 	"ServiceWiringFiles": [
 		"includes/ServiceWiring.php"
 	],

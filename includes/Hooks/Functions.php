@@ -11,6 +11,8 @@ class Functions implements ParserFirstCallInitHook {
     ) {}
 
     public function onParserFirstCallInit( $parser ): void {
-        $parser->setFunctionHook( UserWords::MAGIC_USER_GROUPS, [ $this->magicWords, 'getUserGroupsFromParser' ], SFH_NO_HASH );
+        if ( $this->magicWords->isEnabled(UserWords::MAGIC_USER_GROUPS) ) {
+            $parser->setFunctionHook(UserWords::MAGIC_USER_GROUPS, [ $this->magicWords, 'getUserGroupsFromParser' ], SFH_NO_HASH);
+        }
     }
 }

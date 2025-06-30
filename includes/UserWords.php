@@ -25,6 +25,16 @@ class UserWords {
 
     public const SERVICE_NAME = 'ExtUserWords';
 
+    /**
+     * Array of all Magic Variables and their config name
+     */
+    public const ALL_WORDS = [
+        UserWords::MAGIC_USER_GROUPS => 'UserGroups',
+        UserWords::MAGIC_USER_REGISTRATION => 'UserRegistrationStamp',
+        UserWords::MAGIC_USER_FIRST_REVISION => 'UserFirstRevisionStamp',
+        UserWords::MAGIC_USER_LANGUAGE_CODE => 'UserLanguageCode',
+    ];
+
     public function __construct(
         private readonly Config            $config,
         private readonly UserFactory       $users,
@@ -32,9 +42,38 @@ class UserWords {
         private readonly UserOptionsLookup $options,
         private readonly RevisionStore     $revisions,
         private readonly LBFactory         $db,
-    ) {
+    ) {}
+
+    /**
+     * Get all the enabled Magic Variables
+     * @return string[]
+     */
+    public function getEnabled(): array {
+        $keys = [];
+
+        foreach ( array_keys(self::ALL_WORDS) as $key ) {
+            if ( $this->isEnabled($key) ) {
+                $keys[] = $key;
+            }
+        }
+
+        return $keys;
     }
 
+    /**
+     * Check if a Magic Variable is enabled
+     * @param string $key
+     * @return bool
+     */
+    public function isEnabled( string $key ): bool {
+        return array_key_exists($key, self::ALL_WORDS) && $this->config->get('UserWords' . self::ALL_WORDS[$key]);
+    }
+
+    /**
+     * Find the user given a page reference
+     * @param ?PageReference $reference
+     * @return ?User
+     */
     public function getUser( ?PageReference $reference ): ?User {
         if ( $reference instanceof Title && $reference->getNamespace() === NS_USER ) {
             $user = $this->users->newFromName($reference->getBaseText());
