@@ -35,8 +35,8 @@ class UserWords {
     }
 
     public function getUser( ?PageReference $reference ): ?User {
-        if ( $reference instanceof Title && $reference->getNamespace() == NS_USER ) {
-            $user = $this->users->newFromName($reference->getText());
+        if ( $reference instanceof Title && $reference->getNamespace() === NS_USER ) {
+            $user = $this->users->newFromName($reference->getBaseText());
             if ( $user && $user->isNamed() && !$user->isHidden() ) {
                 return $user;
             }
