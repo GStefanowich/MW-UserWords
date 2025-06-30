@@ -25,7 +25,7 @@ class Functions implements ParserFirstCallInitHook {
      * @param string $method
      * @return void
      */
-    private function setFunctionHook( Parser $parser, string $id, string $method ) {
+    private function setFunctionHook( Parser $parser, string $id, string $method ): void {
         if ( $this->magicWords->isEnabled($id) ) {
             $parser->setFunctionHook($id, [ $this->magicWords, $method ], SFH_NO_HASH);
         }
