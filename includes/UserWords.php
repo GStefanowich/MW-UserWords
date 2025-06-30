@@ -110,7 +110,7 @@ class UserWords {
         // Query revisions created by the User
         $query = $this->revisions->newSelectQueryBuilder( $db )
             ->where( [
-                'actor_name' => $user->getName(), // Query by name (WMF why not by ID??)
+                'actor_user' => $user->getId(),
             ] )
             ->andWhere($db->bitAnd('rev_deleted', RevisionRecord::DELETED_USER) . ' != ' . RevisionRecord::DELETED_USER)
             ->orderBy('rev_timestamp', 'ASC')
