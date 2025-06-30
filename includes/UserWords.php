@@ -6,6 +6,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Page\PageReference;
 use MediaWiki\Parser\Parser;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionStore;
 use MediaWiki\Title\Title;
 use MediaWiki\User\Options\UserOptionsLookup;
@@ -103,12 +104,15 @@ class UserWords {
      * @return string
      */
     public function getUserFirstRevision( Parser $parser, User $user ): string {
+        // Get the replica db
+        $db = $this->db->getReplicaDatabase();
+
         // Query revisions created by the User
-        $query = $this->revisions->newSelectQueryBuilder( $this->db->getReplicaDatabase() )
+        $query = $this->revisions->newSelectQueryBuilder( $db )
             ->where( [
                 'actor_name' => $user->getName(), // Query by name (WMF why not by ID??)
-                'rev_deleted' => false, // Only count non-deleted revisions
             ] )
+            ->andWhere($db->bitAnd('rev_deleted', RevisionRecord::DELETED_USER) . ' != ' . RevisionRecord::DELETED_USER)
             ->orderBy('rev_timestamp', 'ASC')
             ->limit(1);
 
