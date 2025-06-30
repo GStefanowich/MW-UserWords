@@ -52,12 +52,14 @@ class UserWords {
      * @return string
      */
     public function getUserGroupsFromParser( Parser $parser, bool $implicit ): string {
-        $user = $this->getUser($parser->getPage());
-        if ( !$user ) {
-            return '';
+        if ( $parser->incrementExpensiveFunctionCount() ) {
+            $user = $this->getUser($parser->getPage());
+            if ( $user ) {
+                return $this->getUserGroups($parser, $user, $implicit);
+            }
         }
 
-        return $this->getUserGroups($parser, $user, $implicit);
+        return '';
     }
 
     /**
