@@ -21,16 +21,13 @@
 		"includes/ServiceWiring.php"
 	],
 	"Hooks": {
-		"GetMagicVariableIDs": "setVariableIds",
-		"ParserGetVariableValueSwitch": "getVariableValues",
+		"GetMagicVariableIDs": "initVariables",
+		"ParserGetVariableValueSwitch": "initVariables",
 		"ParserFirstCallInit": "initFunctions"
 	},
 	"HookHandlers": {
-		"setVariableIds": {
-			"class": "MediaWiki\\Extension\\UserWords\\Hooks\\Variables"
-		},
-		"getVariableValues": {
-			"class": "MediaWiki\\Extension\\UserWords\\Hooks\\Values",
+		"initVariables": {
+			"class": "MediaWiki\\Extension\\UserWords\\Hooks\\Variables",
 			"services": [
 				"ExtUserWords"
 			]
