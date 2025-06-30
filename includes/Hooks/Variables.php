@@ -8,18 +8,16 @@ class Variables implements
     \MediaWiki\Hook\ParserGetVariableValueSwitchHook,
     \MediaWiki\Hook\GetMagicVariableIDsHook
 {
-    private readonly array $variables;
+    public const VARIABLES = [
+        UserWords::MAGIC_USER_FIRST_REVISION,
+        UserWords::MAGIC_USER_GROUPS,
+        UserWords::MAGIC_USER_REGISTRATION,
+        UserWords::MAGIC_USER_LANGUAGE_CODE,
+    ];
 
     public function __construct(
         private readonly UserWords $magicWords
-    ) {
-        $this->variables = [
-            UserWords::MAGIC_USER_FIRST_REVISION,
-            UserWords::MAGIC_USER_GROUPS,
-            UserWords::MAGIC_USER_REGISTRATION,
-            UserWords::MAGIC_USER_LANGUAGE_CODE,
-        ];
-    }
+    ) {}
 
     /**
      * @inheritdoc
@@ -30,7 +28,7 @@ class Variables implements
             ...$variableIDs,
 
             // Add all of our words
-            ...$this->variables,
+            ...self::VARIABLES,
         ];
     }
 
@@ -38,7 +36,7 @@ class Variables implements
      * @inheritdoc
      */
     public function onParserGetVariableValueSwitch( $parser, &$variableCache, $magicWordId, &$ret, $frame ): void {
-        if ( !in_array($magicWordId, $this->variables) ) {
+        if ( !in_array($magicWordId, self::VARIABLES) ) {
             return;
         }
 
